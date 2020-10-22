@@ -7,18 +7,17 @@ Created on Thu Oct 22 15:14:28 2020
 
 from PIL import Image
 
+"""opens and returns an image file from the given path"""
 def importBMP(filename, formats = "bmp"):
-    #TODO: add try block after debugging
-   
-    BMPImage = Image.open(filename)
-    return BMPImage
+    try:  
+        BMPImage = Image.open(filename)
+        return BMPImage
+    except:
+        #throw generic i/o error
+        print("error importing file data")
 
-"""    
-def convertToJPG(imageFile):
-    if infile != outfile:"""
-    
 if __name__ in "__main__":
-    #loads a 2x2 red test image
+    #loads a 2x2 red test image and prints file info
     testIMG = importBMP("redsquare.bmp")
     print("imported: " + testIMG.filename)
     print("format is: " + str(testIMG.format))
@@ -26,7 +25,7 @@ if __name__ in "__main__":
     print("image mode is: " + str(testIMG.mode))
     print("image info is: " + str(testIMG.info))
     
-    #convert Image to PixelAccess object
+    #converts Image to PixelAccess object
     imageData = testIMG.load()
     
     #output a visible grid of pixels
