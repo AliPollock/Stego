@@ -99,7 +99,7 @@ if __name__ == "__main__":
     binaryMessageLength = findBinaryMessageLength(binaryMessage)
     # messageOut = binaryToOutput(binaryMessage)
 
-    imageBytes = importImage("unsplash.bmp")
+    imageBytes = importImage("Images/unsplash.bmp")
     editedImageBytes = insertMessageIntoImage(binaryMessage, imageBytes)
     stegoObject = insertMessageLengthIntoImage(binaryMessageLength, editedImageBytes)
     # stegoImage = returnToImage(stegoObject)
