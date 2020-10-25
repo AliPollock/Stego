@@ -1,20 +1,46 @@
 # -*- coding: utf-8 -*-
 """
 Created on Thu Oct 22 15:14:28 2020
-
 @author: Andrew
 """
 
 from PIL import Image
 
-"""opens and returns an image file from the given path"""
+"""
+opens and returns an image file from the given path
+now sanitises for image type
+"""
 def importBMP(filename, formats = "bmp"):
     try:  
         BMPImage = Image.open(filename)
+        #if file gets past "formats=", import it, but display warning
+        if BMPImage.format != "BMP":
+            print("\n---WARNING---\nimage file may not be compatible\n")
+            
         return BMPImage
+            
     except:
         #throw generic i/o error
         print("error importing file data")
+    
+"""
+Takes in an image file, increases it's size by a given
+factor and returns the new file data
+"""
+def resizeIMG(imageData, factor):
+    resizeFactor = float(factor)
+    
+    x = imageData.width
+    y = imageData.height
+    
+    rX = x * resizeFactor
+    rY = y * resizeFactor
+    
+    newsize = (int(rX), int(rY))
+    
+    resizedIMG = imageData.resize(newsize)
+    return resizedIMG
+    
 
 if __name__ in "__main__":
     #loads a 2x2 red test image and prints file info
@@ -66,3 +92,12 @@ if __name__ in "__main__":
     
     #write the image out using the save() function
     testIMG.save("updatedtestsquare.bmp")
+    testIMG.close()
+    
+    """Image manipulation tests"""
+    testIMG2 = importBMP("redsquare.bmp")
+    resizedIMG = resizeIMG(testIMG2, 2.0)
+    
+    resizedIMG.save("resizedsquare.bmp")
+    testIMG2.close()
+    resizedIMG.close()
