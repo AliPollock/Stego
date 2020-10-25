@@ -29,6 +29,8 @@ factor and returns the new file data
 """
 def resizeIMG(imageData, factor):
     resizeFactor = float(factor)
+    print("\nresizing image by factor of " + str(resizeFactor) +
+          "\n----------------------")
     
     x = imageData.width
     y = imageData.height
@@ -36,9 +38,12 @@ def resizeIMG(imageData, factor):
     rX = x * resizeFactor
     rY = y * resizeFactor
     
+    print("width(x):  " + str(x) + " --> " + str(rX) + " pixels")
+    print("height(y): " + str(y) + " --> " + str(rY) + " pixels")
     newsize = (int(rX), int(rY))
     
     resizedIMG = imageData.resize(newsize)
+    print("\nimage resized successfully")
     return resizedIMG
     
 
@@ -96,8 +101,10 @@ if __name__ in "__main__":
     
     """Image manipulation tests"""
     testIMG2 = importBMP("redsquare.bmp")
-    resizedIMG = resizeIMG(testIMG2, 2.0)
+    resizedIMG = resizeIMG(testIMG2, 20.0)
     
     resizedIMG.save("resizedsquare.bmp")
     testIMG2.close()
     resizedIMG.close()
+    
+    
