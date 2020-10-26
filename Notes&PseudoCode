@@ -1,0 +1,87 @@
+Objectives:
+
+Research steganography
+explore the feasability of the scenario
+present your findings
+record presentation
+
+
+
+
+Program:
+
+Encode:
+    Take in 24-bitmap cover image
+    Take in an input string
+    Convert both to binary
+        count length of binary message and check it going to fit
+    hide the string in image binary
+        also hide the length of string at the beginning
+    reformat image
+    output image
+
+Decode:
+    Take in 24-bitmap cover image
+    Convert to binary
+    remove string in image binary
+    reformat binary into string
+    output string
+
+Test:
+    write a unitest program?
+
+Constraints:
+    image must be bmp format
+    First 54 bytes of image file are to remain untouched
+    some space must be left to encode length of message
+    only use Pillow library
+    test on multiple machines
+
+
+Presentation:
+
+    10 minutes
+    An overview of how steganography works
+    discuussion of LSB algorithm (1 min)
+    feasability of using in data smuggling
+    key steps in the process through explaining program and demonstrating
+    recommendations to manage the risk of such a breach
+
+
+
+Notes:
+
+<PIL.BmpImagePlugin.BmpImageFile image mode=RGB size=3974x4968 at 0x38171D8>
+
+image is 3974x4968 pixels which means 19,742,832 pixels which is (x3) 59,228,334 bytes
+
+minus the first 54 bytes of crucial information is 59228280 bytes for storage
+
+the file says it is 57,851 KB
+
+to be safe we should probably set a maximum size limit of 57,000,000 in the binary message
+
+this in binary is 0b 11 0110 0101 1100 0000 0100 0000 which means I would need 26 binary spaces to encode the maximum possible length
+
+this is 8 pixels long
+
+this is 7,125,000 ascii characters
+
+
+so the number 32 which is 10 0000 will become
+00 0000 0000 0000 0000 0001 0000
+
+
+
+
+Write/Read Test Notes
+
+in:  00 0000 0000 0000 0000 0011 1000
+
+Out: 000 0000 0000 0000 0000 0011 1000
+
+01110100011001010111001101110100011010010110111001100111001000000111010001101000011001010010000001100011011011110110010001100101011101110010000001101000011001010111001001100101
+011 011 011 011 011 011 011 011 011 011 011 011 011 011 011 011 011 011 011 011 10010010010010010010010001101110001101101110010001101111100011111111100000011100000001101101110000111010010010001101
+
+
+Things to add: mechanism to change messageLength pixels from 27 to less if it's a smaller image: some variable which uses the width and height to calculate?
