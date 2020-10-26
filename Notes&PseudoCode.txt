@@ -8,7 +8,6 @@ record presentation
 
 
 
-
 Program:
 
 Encode:
@@ -69,28 +68,20 @@ this is 8 pixels long
 this is 7,125,000 ascii characters
 
 
+so the number 32 which is 10 0000 will become
+00 0000 0000 0000 0000 0001 0000
 
 
 
 
+Write/Read Test Notes
 
-PseudoCode:
+in:  00 0000 0000 0000 0000 0011 1000
 
+Out: 000 0000 0000 0000 0000 0011 1000
 
-import Pillow
-
-
-def ImageImport(file):
-    take in image and convert to list of pixels
-    each pixel should contain list of the elements, each element is a byte corresponding to a colour
-    return imageByteList
+01110100011001010111001101110100011010010110111001100111001000000111010001101000011001010010000001100011011011110110010001100101011101110010000001101000011001010111001001100101
+011 011 011 011 011 011 011 011 011 011 011 011 011 011 011 011 011 011 011 011 10010010010010010010010001101110001101101110010001101111100011111111100000011100000001101101110000111010010010001101
 
 
-
-def message import():
-
-def messagelength():
-    return message length
-
-
-main function:
+Things to add: mechanism to change messageLength pixels from 27 to less if it's a smaller image: some variable which uses the width and height to calculate?
