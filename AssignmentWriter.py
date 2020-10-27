@@ -72,19 +72,19 @@ def insertMessageIntoImage(binaryMessage, image):
 
             pixelTuple = tuple(pixelList)
             image.putpixel((x, y), pixelTuple)
-            print(f"pixel {x}: {pixel} was written to {pixelList}")
+            # print(f"pixel {x}: {pixel} was written to {pixelList}")
             del pixelList[:]
         i=0 # this sets the pixel indent back to zero after the first  row of pixels is passed
         return f"an error has occured when entering text into image"
 
 
-def insertMessageLengthIntoImage(messageLength, image):
+def insertMessageLengthIntoImage(messageLength, image, bitsRequiredLength = 27):
     imageData = image.load()
-    binaryMessageLength = "{0:b}".format((messageLength)).zfill(27) #27 because the maximum value that the photo can hold is 26 digits long and 27 makes 9 full pixels
+    binaryMessageLength = "{0:b}".format((messageLength)).zfill(bitsRequiredLength) #27 because the maximum value that the photo can hold is 26 digits long and 27 makes 9 full pixels
     y = 0
     j = 0
     print(f" length of {messageLength} is {binaryMessageLength}")
-    for x in range(70,79):
+    for x in range(70,70 + int(bitsRequiredLength/3)):
         pixel = list(imageData[x, y])  # converting tuple into list
         pixelList = []
         for colour in pixel:
@@ -97,22 +97,30 @@ def insertMessageLengthIntoImage(messageLength, image):
             j += 1
         pixelTuple = tuple(pixelList)
         image.putpixel((x, y), pixelTuple)
-        print(f" pixel {x}: {pixel} was changed to {pixelList}")
+        # print(f" pixel {x}: {pixel} was changed to {pixelList}")
         del pixelList[:]
     return image
 
 
+def checkLengthOfLength(image): #this is to obtain the length of bits required to encode message length
+    totalPixels = image.height*image.width
+    totalLSB = totalPixels*3
+    binaryTotalLSB = binaryMessageLength = "{0:b}".format((totalLSB))
+    pixelsRequired = -(len(binaryTotalLSB)//-3) # this is to round up to the nearest multiple of 3
+    bitsRequired = pixelsRequired*3
+    return bitsRequired
+    
 
 if __name__ == "__main__":
 
     message = input("Enter a secret message: ")
     binaryMessage = userInputToBinary(message)
     image = importBMP("Images/unsplash.bmp")
-    
     binaryMessageLength = findBinaryMessageLength(binaryMessage)
+    bitsRequiredLength = checkLengthOfLength(image)
 
     insertMessageIntoImage(binaryMessage, image)
-    insertMessageLengthIntoImage(binaryMessageLength, image)
+    insertMessageLengthIntoImage(binaryMessageLength, image, bitsRequiredLength)
     image.save("Images/stegoimage.bmp")
     image.close()
     print("message has been inserted into image and written to a new stegoImage")

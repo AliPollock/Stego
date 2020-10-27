@@ -85,6 +85,5 @@ class Test(unittest.TestCase):
 
         self.assertEqual(binaryMessage, binaryMessageOut)
 
-
 if __name__ == "__main__":
     unittest.main()
