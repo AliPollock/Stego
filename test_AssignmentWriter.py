@@ -31,7 +31,7 @@ class TestFunctions(unittest.TestCase):
     
     
     def test_importBMP(self):
-        image = Image.new( 'RGB', (150,150), "blue") # creates test image of 150x150 blue square
+        image = Image.new( 'RGB', (150,150), "red") # creates test image of 150x150 black square
         pixels = image.load()
         for i in range(image.size[0]):
             for j in range(image.size[1]):
@@ -45,7 +45,7 @@ class TestFunctions(unittest.TestCase):
             for x in range(image.width):
                 self.assertEqual(imageData[x,y], imageimportData[x,y])
 
-        os.remove("Images/blueSquare.bmp") # removes the image again after testing
+        os.remove("Images/blueSquare.bmp")
 
 
 
