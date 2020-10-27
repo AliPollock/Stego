@@ -15,15 +15,6 @@ def findBinaryMessageLength(binaryMessage):
         messageLength +=1
     return messageLength
 
-def binaryToOutput(binaryMessage):
-    message = ''
-    numberOfBytes = int(findBinaryMessageLength(binaryMessage)/8)
-    for i in range(numberOfBytes):
-        byte = binaryMessage[8*i:8*i+8]
-        message += chr(int(byte, 2))
-        print(message)
-    return message
-
 
 """ function to take in image and convert to binary array"""
 

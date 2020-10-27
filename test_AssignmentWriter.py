@@ -27,11 +27,10 @@ class TestFunctions(unittest.TestCase):
         binaryMessage2 = userInputToBinary(message2)
         binaryLength2 = findBinaryMessageLength(binaryMessage2)
         self.assertEqual(binaryLength2, 584)
-
     
     
     def test_importBMP(self):
-        image = Image.new( 'RGB', (150,150), "red") # creates test image of 150x150 black square
+        image = Image.new( 'RGB', (150,150), "blue") # creates test image of 150x150 blue square
         pixels = image.load()
         for i in range(image.size[0]):
             for j in range(image.size[1]):
@@ -45,7 +44,7 @@ class TestFunctions(unittest.TestCase):
             for x in range(image.width):
                 self.assertEqual(imageData[x,y], imageimportData[x,y])
 
-        os.remove("Images/blueSquare.bmp")
+        os.remove("Images/blueSquare.bmp") # deletes the image after test
 
 
 
