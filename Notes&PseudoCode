@@ -72,16 +72,15 @@ so the number 32 which is 10 0000 will become
 00 0000 0000 0000 0000 0001 0000
 
 
+to do:
 
+- Things to add: mechanism to change messageLength pixels from 27 to less if it's a smaller image: some variable which uses the width and height to calculate?
 
-Write/Read Test Notes
+- Handle unknown character errors
 
-in:  00 0000 0000 0000 0000 0011 1000
+- change command line inputs
 
-Out: 000 0000 0000 0000 0000 0011 1000
+- make error checking to test the file is large enough to hold message
 
-01110100011001010111001101110100011010010110111001100111001000000111010001101000011001010010000001100011011011110110010001100101011101110010000001101000011001010111001001100101
-011 011 011 011 011 011 011 011 011 011 011 011 011 011 011 011 011 011 011 011 10010010010010010010010001101110001101101110010001101111100011111111100000011100000001101101110000111010010010001101
+- handle input file type errors
 
-
-Things to add: mechanism to change messageLength pixels from 27 to less if it's a smaller image: some variable which uses the width and height to calculate?

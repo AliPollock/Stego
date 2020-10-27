@@ -2,18 +2,18 @@ from PIL import Image
 
 """ message functions to switch between string and binary, and count the length of the binary message"""
 
-def findBinaryMessageLength(binaryMessage):
-    messageLength = 0
-    for i in binaryMessage:
-        messageLength +=1
-    return messageLength
-
 def userInputToBinary(message): # can't handle & or ( ) need some erro handling for input here
     binaryMessage = ''
     for i in message:
         binaryMessage += "{0:b}".format(ord(i)).zfill(8) # converting to binary zfill gives 0 on the left because format only gives a 7 digit binary value and misses the 0 at the begining
     print(f"'{message}' has been converted to {binaryMessage}")
     return binaryMessage
+
+def findBinaryMessageLength(binaryMessage):
+    messageLength = 0
+    for i in binaryMessage:
+        messageLength +=1
+    return messageLength
 
 def binaryToOutput(binaryMessage):
     message = ''
