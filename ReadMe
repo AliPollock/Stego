@@ -47,3 +47,17 @@ In the extractMessageLengthFromImage() function:
     the range must be chaged to the same as in the writer file: range(70, 79) -> range(70, 70 + x/3)
 
 ##################
+
+
+################# Testing
+
+navigate terminal into testing folder
+install following packages: unittest, os, sys
+use commands:
+$ pip install unittest
+$ pip instal os
+$ pip install sys
+
+run test files
+
+#################

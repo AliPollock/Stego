@@ -1,6 +1,8 @@
 from PIL import Image
 import unittest
 import os
+import sys
+sys.path.insert(0, '../')
 from AssignmentReader import findBinaryMessageLength, binaryToOutput, importBMP, extractMessageLengthFromImage, extractMessageFromImage
 from AssignmentWriter import userInputToBinary, insertMessageIntoImage, insertMessageLengthIntoImage
 
@@ -37,16 +39,16 @@ class Test(unittest.TestCase):
         for i in range(image.size[0]):
             for j in range(image.size[1]):
                 pixels[i,j] = (0, 0, 255)
-        image.save("Images/blueSquare.bmp")
+        image.save("blueSquare.bmp")
 
-        imageimport = importBMP("Images/blueSquare.bmp")
+        imageimport = importBMP("blueSquare.bmp")
         imageData = image.load()
         imageimportData = imageimport.load()
         for y in range(image.height):
             for x in range(image.width):
                 self.assertEqual(imageData[x,y], imageimportData[x,y])
 
-        os.remove("Images/blueSquare.bmp") # deletes the image after test
+        os.remove("blueSquare.bmp") # deletes the image after test
 
 
     def test_extractMessageLengthFromImage(self):

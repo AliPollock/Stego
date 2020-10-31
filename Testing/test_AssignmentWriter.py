@@ -1,7 +1,9 @@
+import unittest
 from PIL import Image
 import os
-import unittest
-from AssignmentWriter import userInputToBinary, findBinaryMessageLength, importBMP, insertMessageIntoImage, insertMessageLengthIntoImage, checkLengthOfLength
+import sys
+sys.path.insert(0, '../')
+from AssignmentWriter import userInputToBinary, findBinaryMessageLength, importBMP, insertMessageIntoImage, insertMessageLengthIntoImage
 
 class TestFunctions(unittest.TestCase):
 
@@ -35,16 +37,16 @@ class TestFunctions(unittest.TestCase):
         for i in range(image.size[0]):
             for j in range(image.size[1]):
                 pixels[i,j] = (0, 0, 255)
-        image.save("Images/blueSquare.bmp")
+        image.save("blueSquare.bmp")
 
-        imageimport = importBMP("Images/blueSquare.bmp")
+        imageimport = importBMP("blueSquare.bmp")
         imageData = image.load()
         imageimportData = imageimport.load()
         for y in range(image.height):
             for x in range(image.width):
                 self.assertEqual(imageData[x,y], imageimportData[x,y])
 
-        os.remove("Images/blueSquare.bmp") # deletes the image after test
+        os.remove("blueSquare.bmp") # deletes the image after test
 
 
 
@@ -83,27 +85,6 @@ class TestFunctions(unittest.TestCase):
         self.assertEqual(pixels[70,0], (254,254,254))
         self.assertEqual(pixels[77,0], (254,254,255))
 
-
-    def test_checkLengthOfLength(self):
-        image1 = Image.new( 'RGB', (140,140), "black") # creates test image of 150x150 black square
-        pixels1 = image1.load()
-        for i in range(image1.size[0]):
-            for j in range(image1.size[1]):
-                pixels1[i,j] = (0, 0, 0)
-        numberOfBits1 = checkLengthOfLength(image1)
-        print(f"the number of pixels is {numberOfBits1}")
-
-        self.assertEqual(numberOfBits1, 18)
-
-        image2 = Image.new( 'RGB', (1400,1400), "black") # creates test image of 150x150 black square
-        pixels2 = image2.load()
-        for i in range(image2.size[0]):
-            for j in range(image2.size[1]):
-                pixels2[i,j] = (0, 0, 0)
-        numberOfBits2 = checkLengthOfLength(image2)
-        print(f"the number of pixels is {numberOfBits2}")
-
-        self.assertEqual(numberOfBits2, 24)
 
 if __name__ == "__main__":
     unittest.main()
