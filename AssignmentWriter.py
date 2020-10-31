@@ -15,6 +15,12 @@ def findBinaryMessageLength(binaryMessage):
         messageLength +=1
     return messageLength
 
+def checkImageFitsMessage(binaryMessageLength, image):
+    numBitsAvailable = image.height*image.width - 100
+    if binaryMessageLength <= numBitsAvailable:
+        return True
+    return False
+
 
 """ function to take in image and convert to binary array"""
 
@@ -102,23 +108,15 @@ def insertMessageLengthIntoImage(messageLength, image):
     return image
 
 
-def checkLengthOfLength(image): #this is to obtain the length of bits required to encode message length
-    totalPixels = image.height*image.width
-    totalLSB = totalPixels*3
-    binaryTotalLSB = binaryMessageLength = "{0:b}".format((totalLSB))
-    pixelsRequired = -(len(binaryTotalLSB)//-3) # this is to round up to the nearest multiple of 3
-    bitsRequired = pixelsRequired*3
-    return bitsRequired
-    
-
 if __name__ == "__main__":
 
     message = input("Enter a secret message: ")
     binaryMessage = userInputToBinary(message)
     image = importBMP("Images/unsplash.bmp")
     binaryMessageLength = findBinaryMessageLength(binaryMessage)
-    bitsRequiredLength = checkLengthOfLength(image)
-
+    
+    checkImageFitsMessage(binaryMessageLength, image)
+    
     insertMessageIntoImage(binaryMessage, image)
     insertMessageLengthIntoImage(binaryMessageLength, image)
     image.save("Images/stegoimage.bmp")

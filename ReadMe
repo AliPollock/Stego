@@ -1,7 +1,49 @@
+
+
+################## iniitial setup
+
 User must first install Pillow module
 
 from the command line enter:
-
 $ pip install Pillow
 
-Images should be stored in a folder named "Images"
+##################
+
+
+
+
+################## Using the programme
+
+To write a message into an image:
+
+move an image file of bmp type into the root directory
+Run the interfaceWIP.py file and follow command line instructions and use the chosen bmp file to insert a message into.
+
+
+To read a message out of a stegoImage:
+
+ensure stegoimage is in root directory
+Run the interfaceWIP.py file and follow command line instructions
+
+##################
+
+
+
+################## To Change maximum Message Length
+
+Programme will accept a maximum binary message of length 134,217,727 i.e 27 binary digits long
+
+If you would like to use the programme to take a larger message, the following changes must be made:
+
+In the Writer File:
+
+In the insertMessageLengthIntoImage() function:
+    the zfill(27) must be changed to a larger multiple of 3 such as zfill(30)
+    the range of x values must be changed reflect this change, so for zfill(x):range(70, 79) must be changed to range(70, 70 + x/3
+
+In the Reader File:
+
+In the extractMessageLengthFromImage() function:
+    the range must be chaged to the same as in the writer file: range(70, 79) -> range(70, 70 + x/3)
+
+##################
