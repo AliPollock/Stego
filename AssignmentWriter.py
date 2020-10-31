@@ -75,16 +75,16 @@ def insertMessageIntoImage(binaryMessage, image):
             # print(f"pixel {x}: {pixel} was written to {pixelList}")
             del pixelList[:]
         i=0 # this sets the pixel indent back to zero after the first  row of pixels is passed
-        return f"an error has occured when entering text into image"
+    return f"an error has occured when entering text into image"
 
 
-def insertMessageLengthIntoImage(messageLength, image, bitsRequiredLength = 27):
+def insertMessageLengthIntoImage(messageLength, image):
     imageData = image.load()
-    binaryMessageLength = "{0:b}".format((messageLength)).zfill(bitsRequiredLength) #27 because the maximum value that the photo can hold is 26 digits long and 27 makes 9 full pixels
+    binaryMessageLength = "{0:b}".format((messageLength)).zfill(27) #27 because the maximum value that the photo can hold is 26 digits long and 27 makes 9 full pixels
     y = 0
     j = 0
     print(f" length of {messageLength} is {binaryMessageLength}")
-    for x in range(70,70 + int(bitsRequiredLength/3)):
+    for x in range(70,79):
         pixel = list(imageData[x, y])  # converting tuple into list
         pixelList = []
         for colour in pixel:
@@ -120,7 +120,7 @@ if __name__ == "__main__":
     bitsRequiredLength = checkLengthOfLength(image)
 
     insertMessageIntoImage(binaryMessage, image)
-    insertMessageLengthIntoImage(binaryMessageLength, image, bitsRequiredLength)
+    insertMessageLengthIntoImage(binaryMessageLength, image)
     image.save("Images/stegoimage.bmp")
     image.close()
     print("message has been inserted into image and written to a new stegoImage")
