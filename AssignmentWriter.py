@@ -1,29 +1,50 @@
+"""
+AssignmentWriter.py
+@authors: Group H
+
+contains functions for reading images and creating new stegoimages
+"""
+
 from PIL import Image
 
-""" message functions to switch between string and binary, and count the length of the binary message"""
-
-def userInputToBinary(message): # can't handle & or ( ) need some erro handling for input here
+"""
+A function to convert a given text string to binary
+"""
+def userInputToBinary(message):
     binaryMessage = ''
     for i in message:
-        binaryMessage += "{0:b}".format(ord(i)).zfill(8) # converting to binary zfill gives 0 on the left because format only gives a 7 digit binary value and misses the 0 at the begining
-    print(f"'{message}' has been converted to {binaryMessage}")
+        binaryMessage += "{0:b}".format(ord(i)).zfill(8)
+
     return binaryMessage
 
+
+"""
+A function that finds the length of a given binary message
+"""
 def findBinaryMessageLength(binaryMessage):
     messageLength = 0
     for i in binaryMessage:
         messageLength +=1
+        
     return messageLength
 
+
+"""
+A function to confirm if a given image file has sufficient pixels for
+a binary message to be inserted using LSB
+"""
 def checkImageFitsMessage(binaryMessageLength, image):
+    #remove 100 bits to account for the message length
     numBitsAvailable = image.height*image.width - 100
     if binaryMessageLength <= numBitsAvailable:
         return True
+    
     return False
 
 
-""" function to take in image and convert to binary array"""
-
+"""
+A function to open and return a local bitmap image as a PIL Image
+"""
 def importBMP(filename, formats = "bmp"):
     try:  
         BMPImage = Image.open(filename)
@@ -38,61 +59,94 @@ def importBMP(filename, formats = "bmp"):
         print("error importing file data")
 
 
-"""functions to put message into image array and insert message length into image array"""
-
+"""
+A function that inserts the given binary message into the RGB values of
+the pixels within the given Image file using LSB
+Returns the resulting stegoimage
+"""
 def insertMessageIntoImage(binaryMessage, image):
-    imageData = image.load() # creating pixel access object
+    #load PixelAccess object for given image
+    imageData = image.load()
     messageLength = findBinaryMessageLength(binaryMessage)
-    i=100 # this is a pixel indent to make the programme only start the iteration at pixel 100
-    j = 0 #this will be the counter for what character in our message we are currently on
+    
+    #begin iteration after message length binary
+    i=100
+    #bit counter
+    j = 0
+    #parse each row of pixels in turn
     for y in range(image.height):
         for x in range (i, image.width):
+            #pull pixel as an RGB list using PixelAccess
             pixel = list(imageData[x, y])
-            pixelList = [] # this will be the new container for ammended pixel data
+            pixelList = []
+            
             for colour in pixel:
                 messageCharacter = binaryMessage[j]
                 binaryColour = "{0:b}".format((colour)).zfill(8)
-                binaryColour = binaryColour[:-1] # removes LSB from colour byte
-                binaryColour += messageCharacter # adds message character in place of LSB
-                intColour = int(binaryColour, 2)
-                pixelList.append(intColour) # this will hold the new pixel data
-                j += 1 # each pass, j must increase by 1 so that binaryMessage[j] can move down the message
+                binaryColour = binaryColour[:-1]
                 
-                if j == messageLength: # statements to break out of the loop once the last character of the message has been entered
+                #add current message bit
+                binaryColour += messageCharacter
+                intColour = int(binaryColour, 2)
+                #add modified colour to temporary pixel list
+                pixelList.append(intColour)
+                j += 1
+                
+                #check if current bit is the last in the message
+                if j == messageLength:
+                    #return stegoimage if last bit is a full pixel
                     if j%3 == 0:
-                        pixelTuple = tuple(pixelList) # converting back into tuple
-                        image.putpixel((x, y), pixelTuple) # adding into image
+                        pixelTuple = tuple(pixelList)
+                        image.putpixel((x, y), pixelTuple)
                         return
                     
-                    elif j%3 == 1: # case if there are two empty colours in current pixel when message ends 
+                    #pad 2 bits if not a complete pixel and return stegoimage
+                    elif j%3 == 1:
                         pixelList.extend((pixel[1], pixel[2]))
                         pixelTuple = tuple(pixelList)
                         image.putpixel((x, y), pixelTuple)
                         return
                     
-                    else: # case if there is one empty colour in current pixel when message ends
+                    #pad 1 bit if not a complete pixel and return stegoimage
+                    else:
                         pixelList.append(pixel[2])
                         pixelTuple = tuple(pixelList)
                         image.putpixel((x, y), pixelTuple)
                         return
-
+                    
+            #after 3 inserted bits, cast temporary pixel list as a tuple
             pixelTuple = tuple(pixelList)
+            #insert edited pixel back into image
             image.putpixel((x, y), pixelTuple)
-            # print(f"pixel {x}: {pixel} was written to {pixelList}")
             del pixelList[:]
-        i=0 # this sets the pixel indent back to zero after the first  row of pixels is passed
+            
+        #reset i to 0 after first pixel row
+        i=0 
+        
+    #return error string if there was an error
     return f"an error has occured when entering text into image"
 
 
+"""
+A function that inserts the length of a secret message into - and returns -
+the given image in perparation for the actual insertion of the message
+"""
 def insertMessageLengthIntoImage(messageLength, image):
+    #load PixelAccess object for given image
     imageData = image.load()
-    binaryMessageLength = "{0:b}".format((messageLength)).zfill(27) #27 because the maximum value that the photo can hold is 26 digits long and 27 makes 9 full pixels
+    
+    #use 27 bits to encode message length into image
+    binaryMessageLength = "{0:b}".format((messageLength)).zfill(27)
+    
     y = 0
     j = 0
-    print(f" length of {messageLength} is {binaryMessageLength}")
+    
+    #parse given range of first row of pixels in the image
     for x in range(70,79):
-        pixel = list(imageData[x, y])  # converting tuple into list
+        #pull pixel as an RGB list using PixelAccess
+        pixel = list(imageData[x, y])
         pixelList = []
+        
         for colour in pixel:
             messageLengthCharacter = binaryMessageLength[j]
             binaryColour = "{0:b}".format((colour)).zfill(8)
@@ -101,13 +155,19 @@ def insertMessageLengthIntoImage(messageLength, image):
             intColour = int(binaryColour, 2)
             pixelList.append(intColour)
             j += 1
+            
+        #after 3 inserted bits, cast temporary pixel list as a tuple
         pixelTuple = tuple(pixelList)
+        #insert edited pixel back into image
         image.putpixel((x, y), pixelTuple)
-        # print(f" pixel {x}: {pixel} was changed to {pixelList}")
         del pixelList[:]
+        
     return image
 
 
+"""
+Main function for testing purposes
+"""
 if __name__ == "__main__":
 
     message = input("Enter a secret message: ")

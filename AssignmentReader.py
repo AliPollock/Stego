@@ -1,27 +1,40 @@
+"""
+AssignmentReader.py
+@authors: Group H
+
+contains functions for reading stegoimages created by AssignmentWriter.py
+"""
 from PIL import Image
 
 
-"""functions to read change binary message into text and print to command line"""
-
+"""
+A function that determines the integer length of a given binary message
+"""
 def findBinaryMessageLength(binaryMessage):
     messageLength = 0
     for i in binaryMessage:
         messageLength +=1
+        
     return messageLength
 
+"""
+A function that converts a given binary sequence to a readable String
+"""
 def binaryToOutput(binaryMessage):
     message = ''
+    
+    #convert message length to bytes for string conversion
     numberOfBytes = int(findBinaryMessageLength(binaryMessage)/8)
     for i in range(numberOfBytes):
         byte = binaryMessage[8*i:8*i+8]
         message += chr(int(byte, 2))
-    print(f"the message hidden in the image is: '{message}'")
+        
     return message
 
 
-
-""" function to take in image and convert to binary array"""
-
+"""
+A function to open and return a local bitmap image as a PIL Image
+"""
 def importBMP(filename, formats = "bmp"):
     try:  
         BMPImage = Image.open(filename)
@@ -36,31 +49,43 @@ def importBMP(filename, formats = "bmp"):
         print("error importing file data")
 
 
-""" functions to extract message length and to extract message"""
-
+"""
+A function that extracts the length of a secret message hidden within
+the given stegoimage
+"""
 def extractMessageLengthFromImage(image):
+    #load PixelAccess object for given image
     imageData= image.load()
+    
     y = 0
-    j = 0
     messageLengthBinary = ''
+    #parse given range of first row of pixels for length value
     for x in range(70,79):
+        #pull pixel as an RGB list using PixelAccess
         pixel = list(imageData[x, y])
-        # print(f"{x} pixel is: {pixel}")
+        
         for colour in pixel:
             binaryColour = "{0:b}".format((colour)).zfill(8)
             messageLengthCharacter = binaryColour[7:]
             messageLengthBinary+=messageLengthCharacter
-    print(f"message length in binary is {messageLengthBinary}")
     messageLengthInt = int(messageLengthBinary, 2)
-    print(f"message length int is {messageLengthInt}")
+    
     return messageLengthInt
 
 
+"""
+A function that extracts a secret message of the given length
+from a given stegoimage
+"""
 def extractMessageFromImage(image, messageLength):
+    #load pixelaccess object for given image
     imageData= image.load()
+    
+    #begin iteration after message length binary
     i = 100
     j = 0
     messageBinary = ''
+    #parse each row of pixels in turn
     for y in range(image.height):
         for x in range(i, image.width):
             pixel = list(imageData[x, y])
@@ -70,22 +95,18 @@ def extractMessageFromImage(image, messageLength):
                 messageCharacter = binaryColour[7:]
                 messageBinary+=messageCharacter
                 j+=1
-                # print(messageLength)
-                # print(j)
+                
+                #return after parsing for messageLength
                 if j == messageLength:
-                    print(f"message in binary is {messageBinary}")
-                    return messageBinary
-        i = 0 # this is to set the indent back to zero after the first row (y=0)
+                    return messageBinary               
+        #reset i to 0 after first pixel row
+        i = 0
 
 
-
-
-
-
-
-
+"""
+Main function for testing purposes
+"""
 if __name__ == "__main__":
-
 
     image = importBMP("Images/stegoimage.bmp")
     messageLength = extractMessageLengthFromImage(image)
