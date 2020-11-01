@@ -1,8 +1,10 @@
-# -*- coding: utf-8 -*-
 """
-Created on Tue Oct 27 21:57:50 2020
+StegoInterface.py
+@authors: Group H
 
-@author: Andrew
+contains functions that provide a text interface to AssignmentReader.py
+and AssignmentWriter.py, allowing a user to read and write stegoimages
+without access to the underlying code
 """
 
 import AssignmentWriter
@@ -134,15 +136,18 @@ def insertMessage(importedIMG):
         print("...")
         image = importedIMG
         binaryMessageLength = AssignmentWriter.findBinaryMessageLength(binaryMessage)
-        bitsRequiredLength = AssignmentWriter.checkLengthOfLength(image)
+        
+        if AssignmentWriter.checkImageFitsMessage(binaryMessageLength, image) == False:
+            exitProgram(5)
 
-        AssignmentWriter.insertMessageIntoImage(binaryMessage, image)
-        print("...")
-        AssignmentWriter.insertMessageLengthIntoImage(binaryMessageLength, image)
-        print("... writing to file: " + str(outputFile))
-        image.save(outputFile)
-        image.close()
-        exitProgram(4)
+        else:
+            AssignmentWriter.insertMessageIntoImage(binaryMessage, image)
+            print("...")
+            AssignmentWriter.insertMessageLengthIntoImage(binaryMessageLength, image)
+            print("... writing to file: " + str(outputFile))
+            image.save(outputFile)
+            image.close()
+            exitProgram(4)
     
     except:
         exitProgram(2)
@@ -170,6 +175,10 @@ def exitProgram(conditionCode):
     
     elif conditionCode == 4:
         print("\n\t--Secret Message successfully inserted into file!")
+        
+    elif conditionCode == 5:
+        print("\n--Error: Image is not large enough for the entered message" +
+              "\n--please retry with a larger image or shorter message")
     
     print("\n\t--Program Terminated--")
 
