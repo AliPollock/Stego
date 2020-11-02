@@ -60,7 +60,7 @@ def extractMessageLengthFromImage(image):
     y = 0
     messageLengthBinary = ''
     #parse given range of first row of pixels for length value
-    for x in range(70,79):
+    for x in range(9):
         #pull pixel as an RGB list using PixelAccess
         pixel = list(imageData[x, y])
         
@@ -82,7 +82,7 @@ def extractMessageFromImage(image, messageLength):
     imageData= image.load()
     
     #begin iteration after message length binary
-    i = 100
+    i = 50
     j = 0
     messageBinary = ''
     #parse each row of pixels in turn

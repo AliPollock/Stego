@@ -35,7 +35,7 @@ a binary message to be inserted using LSB
 """
 def checkImageFitsMessage(binaryMessageLength, image):
     #remove 100 bits to account for the message length
-    numBitsAvailable = image.height*image.width - 100
+    numBitsAvailable = image.height*image.width - 50
     if binaryMessageLength <= numBitsAvailable:
         return True
     
@@ -69,9 +69,9 @@ def insertMessageIntoImage(binaryMessage, image):
     imageData = image.load()
     messageLength = findBinaryMessageLength(binaryMessage)
     
-    #begin iteration after message length binary
-    i=100
-    #bit counter
+    # begin iteration after message length binary
+    i=50
+    # bit counter
     j = 0
     #parse each row of pixels in turn
     for y in range(image.height):
@@ -142,7 +142,7 @@ def insertMessageLengthIntoImage(messageLength, image):
     j = 0
     
     #parse given range of first row of pixels in the image
-    for x in range(70,79):
+    for x in range(9):
         #pull pixel as an RGB list using PixelAccess
         pixel = list(imageData[x, y])
         pixelList = []

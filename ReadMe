@@ -39,12 +39,12 @@ In the Writer File:
 
 In the insertMessageLengthIntoImage() function:
     the zfill(27) must be changed to a larger multiple of 3 such as zfill(30)
-    the range of x values must be changed reflect this change, so for zfill(x):range(70, 79) must be changed to range(70, 70 + x/3
+    the range of x values must be changed reflect this change, so for zfill(x):range(9) must be changed to range(x/3)
 
 In the Reader File:
 
 In the extractMessageLengthFromImage() function:
-    the range must be chaged to the same as in the writer file: range(70, 79) -> range(70, 70 + x/3)
+    the range must be changed to the same as in the writer file: range(9) -> range(x/3)
 
 ##################
 
@@ -61,5 +61,3 @@ $ pip install sys
 run test files
 
 #################
-----------------
-################

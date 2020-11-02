@@ -62,10 +62,10 @@ class TestFunctions(unittest.TestCase):
                 pixels[i,j] = (0, 0, 0)
 
         insertMessageIntoImage(binaryMessage, image)
-        self.assertNotEqual(pixels[100,0], pixels[0, 0])
-        self.assertNotEqual(pixels[101,0], pixels[0, 0])
-        self.assertEqual(pixels[100,0], (0,0,1))
-        self.assertEqual(pixels[101,0], (1,0,0))
+        self.assertNotEqual(pixels[50,0], pixels[0, 0])
+        self.assertNotEqual(pixels[51,0], pixels[0, 0])
+        self.assertEqual(pixels[50,0], (0,0,1))
+        self.assertEqual(pixels[51,0], (1,0,0))
 
 
     def test_insertMessageLengthIntoImage(self):
@@ -80,10 +80,10 @@ class TestFunctions(unittest.TestCase):
                 pixels[i,j] = (255, 255, 255)
 
         insertMessageLengthIntoImage(binaryMessageLength, image)
-        self.assertNotEqual(pixels[70,0], pixels[0, 0])
-        self.assertNotEqual(pixels[77,0], pixels[0, 0])
-        self.assertEqual(pixels[70,0], (254,254,254))
-        self.assertEqual(pixels[77,0], (254,254,255))
+        self.assertNotEqual(pixels[0,0], pixels[0, 1])
+        self.assertNotEqual(pixels[7,0], pixels[0, 1])
+        self.assertEqual(pixels[0,0], (254,254,254))
+        self.assertEqual(pixels[7,0], (254,254,255))
 
 
 if __name__ == "__main__":
