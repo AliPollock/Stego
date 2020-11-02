@@ -89,6 +89,8 @@ def openImage(isRead):
         if importedBMP == None:
             unrecognizedString(imageToOpen)
             openImage(isRead)
+        elif importedBMP.mode != 'RGB':
+            exitProgram(6)
         elif isRead == True:
             extractMessage(importedBMP)
         elif isRead == False:
@@ -180,6 +182,10 @@ def exitProgram(conditionCode):
         print("\n--Error: Image is not large enough for the entered message" +
               "\n--please retry with a larger image or shorter message")
     
+    elif conditionCode == 6:
+        print("\n--Error: Image is a BMP, but not 24-bit true-colour" +
+              "\n--please retry with a true-colour image")
+        
     print("\n\t--Program Terminated--")
 
 
