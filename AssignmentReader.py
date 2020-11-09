@@ -108,7 +108,4 @@ Main function for testing purposes
 """
 if __name__ == "__main__":
 
-    image = importBMP("Images/stegoimage.bmp")
-    messageLength = extractMessageLengthFromImage(image)
-    binaryMessage = extractMessageFromImage(image, messageLength)
-    binaryToOutput(binaryMessage)
+    print("run this programme using the StegoInterface.py file")

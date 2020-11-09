@@ -170,16 +170,5 @@ Main function for testing purposes
 """
 if __name__ == "__main__":
 
-    message = input("Enter a secret message: ")
-    binaryMessage = userInputToBinary(message)
-    image = importBMP("Images/unsplash.bmp")
-    binaryMessageLength = findBinaryMessageLength(binaryMessage)
-    
-    checkImageFitsMessage(binaryMessageLength, image)
-    
-    insertMessageIntoImage(binaryMessage, image)
-    insertMessageLengthIntoImage(binaryMessageLength, image)
-    image.save("Images/stegoimage.bmp")
-    image.close()
-    print("message has been inserted into image and written to a new stegoImage")
+    print("run this file using the StegoInterface.py file")
 
