@@ -2,7 +2,8 @@
 
 ################## iniitial setup
 
-User must first install Pillow module
+User must first install Pillow module. Full details can be found at:
+https://pillow.readthedocs.io/en/stable/installation.html
 
 from the command line enter:
 $ pip install Pillow
@@ -17,13 +18,13 @@ $ pip install Pillow
 To write a message into an image:
 
 move an image file of bmp type into the root directory
-Run the interfaceWIP.py file and follow command line instructions and use the chosen bmp file to insert a message into.
+Run the StegoInterface.py, type 'write', and follow the presented instructions to choose a bmp file to insert a message into.
 
 
 To read a message out of a stegoImage:
 
-ensure stegoimage is in root directory
-Run the interfaceWIP.py file and follow command line instructions
+ensure the target stegoimage is in root directory
+Run the StegoInterface.py file, type 'read' and follow command line instructions to select the stegoimage
 
 ##################
 
